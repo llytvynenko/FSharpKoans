@@ -57,6 +57,16 @@ module ``about the stock example`` =
 
     [<Koan>]
     let YouGotTheAnswerCorrect() =
-        let result =  __
+        let splitCommas (x:string) =
+            x.Split([|','|])
+        let rawData = Seq.skip 1 stockData
+        let parsedData = Seq.map splitCommas rawData
+        let variance (x:string[]) = 
+            let difference = (System.Double.Parse(x.[1].Replace(".",",")) - System.Double.Parse(x.[4].Replace(".",",")))
+            abs difference
+        let resultRow = Seq.maxBy variance parsedData
+        
+        //Seq.maxBy getNameLength names 
+        let result =  resultRow.[0]
         
         AssertEquality "2012-03-13" result
